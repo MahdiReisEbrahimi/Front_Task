@@ -6,15 +6,15 @@ const usersInitialState: { users: User[] } = {
     new User(
       1,
       "ali@example.com",
-      "ali",
-      "moradi",
+      "Ali",
+      "Moradi",
       "https://reqres.in/img/faces/7-image.jpg"
     ),
     new User(
       2,
       "ali@example.com",
-      "ali",
-      "moradi",
+      "Ali",
+      "Moradi",
       "https://reqres.in/img/faces/7-image.jpg"
     ),
   ],

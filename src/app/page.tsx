@@ -1,12 +1,9 @@
-"use client";
-
-import { useSelector, useDispatch } from "react-redux";
-import User from "@/models/user";
+import Users from "@/components/Users";
 
 export default function Home() {
-  const users = useSelector(
-    (state: { users: { users: User[] } }) => state.users.users
+  return (
+    <>
+      <Users></Users>
+    </>
   );
-  console.log(users);
-  return <></>;
 }
