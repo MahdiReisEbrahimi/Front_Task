@@ -1,16 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import "./global.css";
+import Link from "next/link";
+import store from "@/store";
+import { Provider } from "react-redux";
+import ReduxProvider from "@/providers/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Front Task",
@@ -24,10 +17,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body>
+        <ReduxProvider>
+          <header className="p-2 bg-blue-400">
+            <ul className="flex justify-around">
+              <li>
+                <Link href={"/"}>Users</Link>
+              </li>
+              <li>
+                <Link href={"/details"}>User Datail</Link>
+              </li>
+            </ul>
+          </header>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );
