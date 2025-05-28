@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./global.css";
 import Link from "next/link";
-import store from "@/store";
-import { Provider } from "react-redux";
 import ReduxProvider from "@/providers/ReduxProvider";
 
 export const metadata: Metadata = {

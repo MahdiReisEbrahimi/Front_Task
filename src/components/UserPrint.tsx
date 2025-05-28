@@ -1,8 +1,6 @@
 import Image from "next/image";
-import x from "@/../public/x.png";
 import { User } from "@/store/userApi";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import Button from "./reusable/Button";
 
 export default function UserPrint({ user }: { user: User }) {
   return (
@@ -20,12 +18,7 @@ export default function UserPrint({ user }: { user: User }) {
       <p className="text-sm text-gray-500">
         Email: <span className="text-blue-600">{user.email}</span>
       </p>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        className="p-1 bg-blue-950 rounded-sm text-white font-bold mt-2 w-full cursor-pointer"
-      >
-        <Link href={`${user.id}`}>Details</Link>
-      </motion.button>
+      <Button id={user.id} />
     </li>
   );
 }

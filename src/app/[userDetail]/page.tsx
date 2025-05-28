@@ -1,8 +1,10 @@
 "use client";
+
 import { use } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { User } from "@/store/userApi";
+import { User, UserResponse } from "@/store/userApi";
+import { useGetUsersQuery } from "@/store/userApi";
 
 export default function UserDetailPage({
   params,
@@ -16,7 +18,24 @@ export default function UserDetailPage({
     (state: { users: { users: User[] } }) => state.users.users
   );
 
-  const user = users.find((user) => user.id == id);
+  // هوک باید همیشه در بالای کامپوننت صدا زده بشه
+  const {
+    data: fetchedData,
+    isLoading,
+    error,
+  } = useGetUsersQuery(1) as {
+    isLoading: boolean;
+    data: UserResponse;
+    error: unknown;
+  };
+
+  // first checking redux store.
+  let user = users.find((user) => user.id == id);
+
+  // if no data in store => request to server.
+  if (!user && fetchedData) {
+    user = fetchedData.data.find((user) => user.id == id);
+  }
 
   const intro = user
     ? `${user.first_name} ${user.last_name} is one of our active users, registered with the email ${user.email}.`

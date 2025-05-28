@@ -1,13 +1,11 @@
 "use client";
-import { useSelector } from "react-redux";
+
 import { User } from "@/store/userApi";
 import UserPrint from "./UserPrint";
-import Test from "./Test";
+import { useLoadUsers } from "@/hooks/useLoadUsers";
 
 export default function Users() {
-  const users = useSelector(
-    (state: { users: { users: User[] } }) => state.users.users
-  );
+  const { users } = useLoadUsers() as { users: User[] };
 
   return (
     <>
@@ -16,7 +14,6 @@ export default function Users() {
           <UserPrint key={user.id} user={user} />
         ))}
       </ul>
-      <Test />
     </>
   );
 }
