@@ -1,10 +1,9 @@
 "use client";
-
 import { use } from "react";
 import Image from "next/image";
 import { useSelector } from "react-redux";
-import { User, UserResponse } from "@/store/userApi";
-import { useGetUsersQuery } from "@/store/userApi";
+import { useLoadUsers } from "@/hooks/useLoadUsers";
+import IsLoading from "@/components/reusable/IsLoading";
 
 export default function UserDetailPage({
   params,
@@ -14,28 +13,8 @@ export default function UserDetailPage({
   const { userDetail } = use(params);
   const id = userDetail;
 
-  const users = useSelector(
-    (state: { users: { users: User[] } }) => state.users.users
-  );
-
-  // هوک باید همیشه در بالای کامپوننت صدا زده بشه
-  const {
-    data: fetchedData,
-    isLoading,
-    error,
-  } = useGetUsersQuery(1) as {
-    isLoading: boolean;
-    data: UserResponse;
-    error: unknown;
-  };
-
-  // first checking redux store.
-  let user = users.find((user) => user.id == id);
-
-  // if no data in store => request to server.
-  if (!user && fetchedData) {
-    user = fetchedData.data.find((user) => user.id == id);
-  }
+  const { users } = useLoadUsers();
+  const user = users.find((user) => user.id == id);
 
   const intro = user
     ? `${user.first_name} ${user.last_name} is one of our active users, registered with the email ${user.email}.`
@@ -62,7 +41,7 @@ export default function UserDetailPage({
         </div>
       ) : (
         <div className="text-center text-gray-600 text-xl">
-          کاربری پیدا نشد 😕
+          <IsLoading />
         </div>
       )}
     </div>
