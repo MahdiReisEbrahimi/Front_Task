@@ -8,16 +8,21 @@ import { FaIcons } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Modal from "./UI/Modal";
 import LoginForm from "./Login/LoginForm";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/index";
+import SignUpForm from "./Signup/SignUpForm";
 
-const navItems = [
-  { label: "Users", href: "/" },
-  { label: "Sign Up", href: "/signup" },
-];
+const navItems = [{ label: "Users", href: "/" }];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+
+  const authState = useSelector((state: RootState) => {
+    return state.auth;
+  });
 
   const handleNavigationClick = () => setIsOpen(false);
   const handleLoginClick = () => {
@@ -25,6 +30,15 @@ export default function Navbar() {
     setShowLoginModal(true);
   };
   const closeLoginModal = () => setShowLoginModal(false);
+
+  function handleSignupClick() {
+    setIsOpen(false);
+    setShowSignupModal(true);
+  }
+
+  function closeSignupModal() {
+    setShowSignupModal(false);
+  }
 
   return (
     <header className="fixed top-0 left-0 w-full z-[9999] bg-blue-500 text-white shadow-md">
@@ -50,12 +64,14 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
-          <button
-            onClick={() => setShowLoginModal(true)}
-            className="text-black font-bold cursor-pointer py-1 rounded-xl hover:bg-purple-800 hover:text-white transition"
-          >
-            Login
-          </button>
+          {authState.isAuthenticated || (
+            <button
+              onClick={() => setShowLoginModal(true)}
+              className="text-black font-bold cursor-pointer py-1 rounded-xl hover:bg-purple-800 hover:text-white transition"
+            >
+              Login
+            </button>
+          )}
         </nav>
 
         <button
@@ -89,12 +105,22 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
-          <button
-            onClick={handleLoginClick}
-            className="text-black font-bold cursor-pointer py-1 rounded-xl hover:bg-purple-800 hover:text-white transition"
-          >
-            Login
-          </button>
+          {authState.isAuthenticated || (
+            <button
+              onClick={handleLoginClick}
+              className="text-black font-bold cursor-pointer py-1 rounded-xl hover:bg-purple-800 hover:text-white transition"
+            >
+              Login
+            </button>
+          )}
+          {authState.isAuthenticated || (
+            <button
+              onClick={handleSignupClick}
+              className="text-black font-bold cursor-pointer py-1 rounded-xl hover:bg-purple-800 hover:text-white transition"
+            >
+              Signup
+            </button>
+          )}
         </motion.div>
       )}
 
@@ -102,6 +128,13 @@ export default function Navbar() {
       {showLoginModal && (
         <Modal onClose={closeLoginModal}>
           <LoginForm onClose={closeLoginModal} />
+        </Modal>
+      )}
+
+      {/* Modal for Signup */}
+      {showSignupModal && (
+        <Modal onClose={closeSignupModal}>
+          <SignUpForm onClose={closeSignupModal} />
         </Modal>
       )}
     </header>
