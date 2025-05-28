@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./global.css";
 import Link from "next/link";
 import ReduxProvider from "@/providers/ReduxProvider";
+import Navbar from "@/components/NavBar";
 
 export const metadata: Metadata = {
   title: "Front Task",
@@ -16,17 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div id="overlays" />
         <ReduxProvider>
-          <header className="p-2 bg-blue-400">
-            <ul className="flex justify-around">
-              <li>
-                <Link href={"/"}>Users</Link>
-              </li>
-              <li>
-                <Link href={"/details"}>User Datail</Link>
-              </li>
-            </ul>
-          </header>
+          <Navbar />
           {children}
         </ReduxProvider>
       </body>
