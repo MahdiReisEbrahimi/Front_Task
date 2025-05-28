@@ -27,7 +27,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/store/userSlice.tsx"
+    "src/store/userSlice.ts"
   ],
   "exclude": ["node_modules"]
 }
