@@ -4,7 +4,6 @@ import { useGetUsersQuery } from "@/store/userApi";
 import { User, UserResponse } from "@/store/userApi";
 import { useDispatch } from "react-redux";
 import { updateUsers } from "@/store/userSlice";
-import { button } from "framer-motion/client";
 
 export default function Test() {
   const dispatch = useDispatch();
@@ -28,6 +27,7 @@ export default function Test() {
 
   useEffect(() => {
     if (data && data2) {
+      console.log(data.data);
       const combined = [...data.data, ...data2.data];
       setUsers(combined);
       dispatch(updateUsers(combined));
