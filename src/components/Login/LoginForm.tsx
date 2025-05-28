@@ -1,52 +1,91 @@
 "use client";
 import { useActionState } from "react";
-import { valueLengthChecker } from "@/helperFn/formValidation";
-import { emailChecker } from "@/helperFn/formValidation";
+import {
+  valueLengthChecker,
+  emailChecker,
+  getInputClass,
+} from "@/helperFn/formValidation";
+import { useLoadUsers } from "@/hooks/useLoadUsers";
+import { User } from "@/store/userApi";
+import IsLoading from "../reusable/IsLoading";
+import { useDispatch } from "react-redux";
+import { login } from "@/store/authSlice";
+import { redirect } from "next/navigation";
+import Input from "../reusable/Input";
+import FormErrors from "./FormErrors";
 
-// function for classname of inputs => to make red borders.
-function getInputClass(fieldName: string, errors: string[]) {
-  const hasError = errors.some((err) =>
-    err.toLowerCase().includes(fieldName.toLowerCase())
-  );
-
-  return `w-full px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-    hasError ? "border-red-400" : "border-black"
-  }`;
+interface LoginState {
+  errors: string[] | null;
+  enteredValues: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
 }
 
-// validation function
-async function loginAction(prevState: any, formData: FormData) {
+// LoginForm Action :
+async function loginAction(
+  prevState: LoginState,
+  formData: FormData,
+  users: User[]
+): Promise<LoginState & { activeUser?: User | null }> {
   const firstName = formData.get("firstName")?.toString() || "";
   const lastName = formData.get("lastName")?.toString() || "";
   const email = formData.get("email")?.toString() || "";
 
   const errors: string[] = [];
 
-  if (!valueLengthChecker(firstName, 1)) errors.push("First name is required.");
   if (!valueLengthChecker(firstName, 3))
     errors.push("First name must be at least 3 characters.");
-  if (!valueLengthChecker(lastName, 1)) errors.push("Last name is required.");
   if (!valueLengthChecker(lastName, 3))
     errors.push("Last name must be at least 3 characters.");
   if (!emailChecker(email)) errors.push("Email is invalid!");
 
+  const enteredValues = { firstName, lastName, email };
+
   if (errors.length > 0) {
     return {
       errors,
-      enteredValues: { firstName, lastName, email },
+      enteredValues,
     };
   }
 
-  // Api and redux.
+  const activeUser = users.find(
+    (user) =>
+      user.first_name === firstName &&
+      user.last_name === lastName &&
+      user.email === email
+  );
 
-  return { errors: null };
+  if (!activeUser) {
+    return {
+      errors: ["No matching user found."],
+      enteredValues,
+    };
+  }
+
+  return {
+    errors: null,
+    enteredValues: { firstName: "", lastName: "", email: "" },
+    activeUser,
+  };
 }
 
 export default function LoginForm({ onClose }: { onClose: () => void }) {
-  const [formState, formAction] = useActionState(loginAction, {
+  const { users, isLoading, error } = useLoadUsers();
+  const dispatch = useDispatch();
+  const [formState, formAction] = useActionState<
+    LoginState & { activeUser?: User | null },
+    FormData
+  >((prevState, formData) => loginAction(prevState, formData, users), {
     errors: null,
     enteredValues: { firstName: "", lastName: "", email: "" },
   });
+
+  if (formState.activeUser) {
+    dispatch(login({ user: formState.activeUser }));
+    redirect(`/${formState.activeUser.id}`);
+  }
 
   return (
     <form
@@ -57,62 +96,32 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         Login Form
       </h2>
 
-      {/* First Name */}
-      <div className="mb-4">
-        <label htmlFor="firstName" className="block mb-1 text-gray-600">
-          First Name
-        </label>
-        <input
-          type="text"
-          id="firstName"
-          name="firstName"
-          defaultValue={formState.enteredValues?.firstName}
-          className={getInputClass("First name", formState.errors || [])}
-        />
-      </div>
+      <Input
+        defaultValue={formState.enteredValues?.firstName}
+        className={getInputClass("First name", formState.errors || [])}
+        label="First Name"
+        id="firstName"
+        type="text"
+      />
 
-      {/* Last Name */}
-      <div className="mb-4">
-        <label htmlFor="lastName" className="block mb-1 text-gray-600">
-          Last Name
-        </label>
-        <input
-          type="text"
-          id="lastName"
-          name="lastName"
-          defaultValue={formState.enteredValues?.lastName}
-          className={getInputClass("Last name", formState.errors || [])}
-        />
-      </div>
+      <Input
+        defaultValue={formState.enteredValues?.lastName}
+        className={getInputClass("Last name", formState.errors || [])}
+        label="Last Name"
+        id="lastName"
+        type="text"
+      />
 
-      {/* Email */}
-      <div className="mb-6">
-        <label htmlFor="email" className="block mb-1 text-gray-600">
-          Email
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          defaultValue={formState.enteredValues?.email}
-          className={`w-full px-4 py-2 border rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-            formState.errors?.includes("Email is invalid!")
-              ? "border-red-400"
-              : "border-black"
-          }`}
-        />
-      </div>
+      <Input
+        defaultValue={formState.enteredValues?.email}
+        className={getInputClass("email", formState.errors || [])}
+        label="Email"
+        id="email"
+        type="email"
+      />
 
-      {/* Error Display */}
-      {formState.errors && (
-        <ul className="mb-4 text-sm text-red-500 list-disc pl-5">
-          {formState.errors.map((err: string, idx: number) => (
-            <li key={idx}>{err}</li>
-          ))}
-        </ul>
-      )}
+      {formState.errors && <FormErrors errors={formState.errors} />}
 
-      {/* Buttons */}
       <div className="flex justify-center">
         <button
           type="submit"
@@ -125,7 +134,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
           type="button"
           className="bg-red-500 ml-3 text-white font-bold p-2 rounded-sm"
         >
-          close
+          Close
         </button>
       </div>
     </form>
