@@ -9,9 +9,10 @@ import { useLoadUsers } from "@/hooks/useLoadUsers";
 import { User } from "@/store/userApi";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/authSlice";
-import { redirect } from "next/navigation";
 import Input from "../reusable/Input";
 import FormErrors from "./FormErrors";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 interface LoginState {
   errors: string[] | null;
@@ -71,8 +72,9 @@ async function loginAction(
 }
 
 export default function LoginForm({ onClose }: { onClose: () => void }) {
-  const { users, isLoading, error } = useLoadUsers();
+  const { users } = useLoadUsers();
   const dispatch = useDispatch();
+  const router = useRouter();
   const [formState, formAction] = useActionState<
     LoginState & { activeUser?: User | null },
     FormData
@@ -81,10 +83,16 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
     enteredValues: { firstName: "", lastName: "", email: "" },
   });
 
-  if (formState.activeUser) {
-    dispatch(login({ user: formState.activeUser }));
-    redirect(`/${formState.activeUser.id}`);
-  }
+  useEffect(() => {
+    if (formState.activeUser) {
+      dispatch(login({ user: formState.activeUser }));
+      onClose(); // Close the modal
+      setTimeout(() => {
+        //time for closing modal.
+        router.push(`/${formState.activeUser!.id}`);
+      }, 200);
+    }
+  }, [formState.activeUser, dispatch, router]);
 
   return (
     <form
