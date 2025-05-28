@@ -5,7 +5,6 @@ type UserDetailPageProps = {
 };
 
 export default function UserDetailPage({ params }: UserDetailPageProps) {
-
-    const id = params.userDetail;
+  // const id = params.userDetail;
   return <div></div>;
 }
