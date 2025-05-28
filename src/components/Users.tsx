@@ -1,6 +1,6 @@
 "use client";
 import { useSelector } from "react-redux";
-import User from "@/models/user";
+import { User } from "@/store/userApi";
 import UserPrint from "./UserPrint";
 import Test from "./Test";
 
