@@ -1,6 +1,6 @@
 import Image from "next/image";
 import x from "@/../public/x.png";
-import User from "@/models/user";
+import { User } from "@/store/userApi";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -8,7 +8,7 @@ export default function UserPrint({ user }: { user: User }) {
   return (
     <li className="bg-white rounded-sm shadow-md hover:shadow-xl transition-shadow duration-300 p-4 flex flex-col items-center text-center shadow-gray-400">
       <Image
-        src={x}
+        src={user.avatar}
         alt="picture of person"
         width={100}
         height={100}
