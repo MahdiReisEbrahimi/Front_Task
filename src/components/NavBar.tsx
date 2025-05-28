@@ -6,6 +6,7 @@ import { SlMenu } from "react-icons/sl";
 import { MdCancel } from "react-icons/md";
 import { FaIcons } from "react-icons/fa";
 import Login from "./Login/Login";
+import { motion } from "framer-motion";
 
 const navItems = [{ label: "Users", href: "/" }];
 
@@ -14,7 +15,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-purple-500 text-white shadow-md">
+    <header className="bg-blue-500 text-white shadow-md">
       <div className="container mx-auto flex justify-between items-center px-4 py-3">
         {/* Logo */}
         <div className="text-xl font-extrabold tracking-wide flex items-center">
@@ -54,7 +55,18 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-orange-300 px-4 py-2 space-y-2">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          exit={{ opacity: 0, y: -30 }} 
+          transition={{
+            duration: 1,
+            type: "spring",
+            stiffness: 400,
+            damping: 30,
+          }}
+          className="md:hidden bg-blue-300 px-4 py-2 space-y-2"
+        >
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -68,7 +80,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Login />
-        </div>
+        </motion.div>
       )}
     </header>
   );
