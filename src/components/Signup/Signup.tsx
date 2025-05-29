@@ -97,7 +97,7 @@ export default function Signup({ onClose }: Signup) {
     enteredValues: { firstName: "", lastName: "", email: "", avatar: "" },
   });
 
-  // =========================
+  // handling data submition (API AND REDUX) :
   useEffect(() => {
     if (formState.errors === null && formState.activeUser) {
       const handleSignup = async () => {
@@ -105,15 +105,14 @@ export default function Signup({ onClose }: Signup) {
         const result = await signup(formState.activeUser);
 
         if (result.success) {
-          dispatch(addUser(result.data)); // فقط اگه API موفق بود، دیسپچ کن
+          dispatch(addUser(result.data));
 
-          onClose(); // بستن مدال
+          onClose();
 
           setTimeout(() => {
-            router.push(`/${result.data.id}`); // ریدایرکت به پروفایل
+            router.push(`/${result.data.id}`);
           }, 100);
         } else {
-          // اگه signup شکست خورد، اینجا می‌تونی پیام خطا نشون بدی یا لاگ بزنی
           console.log("Signup failed", result.error);
         }
       };
@@ -121,8 +120,6 @@ export default function Signup({ onClose }: Signup) {
       handleSignup();
     }
   }, [formState]);
-
-  // =========================
 
   return (
     <form
@@ -177,8 +174,9 @@ export default function Signup({ onClose }: Signup) {
         <button
           type="submit"
           className="px-4 font-bold py-2 bg-green-800 text-white rounded w-full hover:bg-blue-600 transition"
+          disabled={isLoading}
         >
-          Signup
+          {isLoading ? "Submiting..." : "Signup"}
         </button>
       </div>
     </form>
