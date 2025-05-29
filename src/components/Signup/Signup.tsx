@@ -9,27 +9,41 @@ import {
 } from "@/helperFn/formValidation";
 import ImagePicker from "../reusable/ImagePicker";
 import { IoCloseSharp } from "react-icons/io5";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useLoadUsers } from "@/hooks/useLoadUsers";
+import { useSignup } from "@/hooks/useSignup";
+import { useFetchUsers } from "@/hooks/useFetchUsers";
+import { useDispatch } from "react-redux";
+import { addUser } from "@/store/userSlice";
+import { useRouter } from "next/navigation";
 
-interface LoginState {
+interface SignupState {
   errors: string[] | null;
   enteredValues: {
     firstName: string;
     lastName: string;
     email: string;
+    avatar?: string;
   };
+}
+interface Signup {
+  onClose: () => void;
 }
 
 // SignupForm Action :
 async function SignupAction(
-  prevState: LoginState,
+  prevState: SignupState,
   formData: FormData,
   users: User[]
-): Promise<LoginState & { activeUser?: User | null }> {
+): Promise<SignupState & { activeUser?: User | null }> {
   const firstName = formData.get("firstName")?.toString() || "";
   const lastName = formData.get("lastName")?.toString() || "";
   const email = formData.get("email")?.toString() || "";
+
+  // Selected Avatar:
+  const avatar = formData.get("avatar") as File | null;
+  const imageBuffer = await avatar.arrayBuffer();
+  const avatarBase64 = Buffer.from(imageBuffer).toString("base64");
 
   const errors: string[] = [];
 
@@ -38,8 +52,16 @@ async function SignupAction(
   if (!valueLengthChecker(lastName, 3))
     errors.push("Last name must be at least 3 characters.");
   if (!emailChecker(email)) errors.push("Email is invalid!");
+  if (!avatar || avatar.size === 0) {
+    errors.push("Please pick an avatar image.");
+  }
 
-  const enteredValues = { firstName, lastName, email };
+  const enteredValues: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    avatar: string;
+  } = { firstName, lastName, email, avatar: avatarBase64 };
 
   if (errors.length > 0) {
     return {
@@ -48,40 +70,59 @@ async function SignupAction(
     };
   }
 
-  const activeUser = users.find(
-    (user) =>
-      user.first_name === firstName &&
-      user.last_name === lastName &&
-      user.email === email
-  );
-
-  if (!activeUser) {
-    return {
-      errors: ["No matching user found."],
-      enteredValues,
-    };
-  }
-
   return {
     errors: null,
-    enteredValues: { firstName: "", lastName: "", email: "" },
-    activeUser,
+    enteredValues: { firstName: "", lastName: "", email: "", avatar: "" },
+    activeUser: {
+      id: crypto.randomUUID().toString(),
+      email,
+      first_name: firstName,
+      last_name: lastName,
+      avatar: "https://tinyjpg.com/images/social/website.jpg",
+    },
   };
 }
 
-interface Login {
-  onClose: () => void;
-}
-
-export default function Login({ onClose }: Login) {
+export default function Signup({ onClose }: Signup) {
   const { users } = useLoadUsers();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { signup, isLoading, error } = useSignup();
+
   const [formState, formAction] = useActionState<
-    LoginState & { activeUser?: User | null },
+    SignupState & { activeUser?: User | null },
     FormData
   >((prevState, formData) => SignupAction(prevState, formData, users), {
     errors: null,
-    enteredValues: { firstName: "", lastName: "", email: "" },
+    enteredValues: { firstName: "", lastName: "", email: "", avatar: "" },
   });
+
+  // =========================
+  useEffect(() => {
+    if (formState.errors === null && formState.activeUser) {
+      const handleSignup = async () => {
+        console.log(formState.activeUser);
+        const result = await signup(formState.activeUser);
+
+        if (result.success) {
+          dispatch(addUser(result.data)); // فقط اگه API موفق بود، دیسپچ کن
+
+          onClose(); // بستن مدال
+
+          setTimeout(() => {
+            router.push(`/${result.data.id}`); // ریدایرکت به پروفایل
+          }, 100);
+        } else {
+          // اگه signup شکست خورد، اینجا می‌تونی پیام خطا نشون بدی یا لاگ بزنی
+          console.log("Signup failed", result.error);
+        }
+      };
+
+      handleSignup();
+    }
+  }, [formState]);
+
+  // =========================
 
   return (
     <form
@@ -127,7 +168,7 @@ export default function Login({ onClose }: Login) {
         type="email"
       />
 
-      <ImagePicker name="mehdi" label="Pick your Avatar" />
+      <ImagePicker name="avatar" label="Pick your Avatar" />
 
       {/* Print form Errors */}
       {formState.errors && <PrintFormErrors errors={formState.errors} />}
