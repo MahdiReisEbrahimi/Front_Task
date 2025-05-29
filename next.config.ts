@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ["reqres.in"],
+    domains: ["reqres.in", "tinyjpg.com"],
   },
 };
 
