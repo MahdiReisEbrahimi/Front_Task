@@ -9,23 +9,31 @@ import { motion, AnimatePresence } from "framer-motion";
 import Modal from "../UI/Modal";
 import LoginForm from "../Login/LoginForm";
 import Signup from "../Signup/Signup";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { LuLogIn } from "react-icons/lu";
 import { RiAddBoxFill } from "react-icons/ri";
 import { FaPowerOff } from "react-icons/fa6";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import { PiUsersFill } from "react-icons/pi";
+import { logout } from "@/store/authSlice";
+
 export default function MobileNavbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const authState = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
 
   const handleLoginClick = () => {
     setIsOpen(false);
     setShowLoginModal(true);
+  };
+
+  const handleLogoutClick = () => {
+    setIsOpen(false);
+    dispatch(logout());
   };
 
   const handleSignupClick = () => {
@@ -102,7 +110,10 @@ export default function MobileNavbar() {
                 </button>
               </>
             ) : (
-              <button className="w-full cursor-pointer flex  items-center justify-center py-2 rounded bg-red-900 hover:bg-red-800 transition text-white font-semibold">
+              <button
+                onClick={handleLogoutClick}
+                className="w-full cursor-pointer flex  items-center justify-center py-2 rounded bg-red-900 hover:bg-red-800 transition text-white font-semibold"
+              >
                 <FaPowerOff className="mr-2" />
                 Logout
               </button>
