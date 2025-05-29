@@ -15,7 +15,6 @@ export default function AuthPage({ user, intro }: { user: any; intro: string }) 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsEditing(false);
-    // اینجا می‌تونی dispatch بزنی یا request به سرور بفرستی
   };
 
   if (!user) {
@@ -47,7 +46,7 @@ export default function AuthPage({ user, intro }: { user: any; intro: string }) 
         {/* دکمه ویرایش */}
         <button
           onClick={() => setIsEditing((prev) => !prev)}
-          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          className="mt-4 px-4 py-2 bg-blue-600 cursor-pointer text-white rounded hover:bg-blue-700 transition"
         >
           {isEditing ? "Cancel" : "Edit Profile"}
         </button>

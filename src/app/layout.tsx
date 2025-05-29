@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./global.css";
-import Link from "next/link";
 import ReduxProvider from "@/providers/ReduxProvider";
-import Navbar from "@/components/NavBar";
+import Navbar from "@/components/navigation/NavBar";
 
 export const metadata: Metadata = {
   title: "Front Task",

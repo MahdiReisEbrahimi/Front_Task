@@ -12,7 +12,6 @@ import { IoCloseSharp } from "react-icons/io5";
 import { useActionState, useEffect, useState } from "react";
 import { useLoadUsers } from "@/hooks/useLoadUsers";
 import { useSignup } from "@/hooks/useSignup";
-import { useFetchUsers } from "@/hooks/useFetchUsers";
 import { useDispatch } from "react-redux";
 import { addUser } from "@/store/userSlice";
 import { useRouter } from "next/navigation";
