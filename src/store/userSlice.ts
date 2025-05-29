@@ -12,7 +12,9 @@ const userSlice = createSlice({
     updateUsers(state, action: PayloadAction<User[]>) {
       state.users = action.payload;
     },
-    addUser() {},
+    addUser(state, action: PayloadAction<User>) {
+      state.users.push(action.payload);
+    },
     clearUsers() {},
     editUser() {},
     deleteUser() {},
