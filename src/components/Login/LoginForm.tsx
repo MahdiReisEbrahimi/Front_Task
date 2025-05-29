@@ -13,6 +13,7 @@ import Input from "../reusable/Input";
 import PrintFormErrors from "@/components/reusable/PrintFormErrors";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface LoginState {
   errors: string[] | null;
@@ -99,8 +100,16 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
       action={formAction}
       className="bg-white p-6 rounded-sm shadow-xl w-full max-w-sm mx-auto"
     >
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 flex items-center justify-between">
         Login Form
+        <button
+          onClick={onClose}
+          type="button"
+          className="bg-red-500 flex items-center ml-3 text-white font-bold p-2 text-sm rounded-sm"
+        >
+          Close
+          <IoCloseSharp />
+        </button>
       </h2>
 
       <Input
@@ -132,19 +141,12 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
 
       {formState.errors && <PrintFormErrors errors={formState.errors} />}
 
-      <div className="flex justify-center">
+      <div className="flex justify-center w-full">
         <button
           type="submit"
-          className="px-4 font-bold py-2 bg-green-800 text-white rounded hover:bg-blue-600 transition"
+          className="px-4 font-bold py-2 w-full cursor-pointer bg-green-800 text-white rounded transition"
         >
           Submit
-        </button>
-        <button
-          onClick={onClose}
-          type="button"
-          className="bg-red-500 ml-3 text-white font-bold p-2 rounded-sm"
-        >
-          Close
         </button>
       </div>
     </form>
