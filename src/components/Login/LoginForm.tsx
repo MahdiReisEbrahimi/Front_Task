@@ -10,7 +10,7 @@ import { User } from "@/store/userApi";
 import { useDispatch } from "react-redux";
 import { login } from "@/store/authSlice";
 import Input from "../reusable/Input";
-import FormErrors from "./FormErrors";
+import PrintFormErrors from "@/components/reusable/PrintFormErrors";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -130,7 +130,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         type="email"
       />
 
-      {formState.errors && <FormErrors errors={formState.errors} />}
+      {formState.errors && <PrintFormErrors errors={formState.errors} />}
 
       <div className="flex justify-center">
         <button

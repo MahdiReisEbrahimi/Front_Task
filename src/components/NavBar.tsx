@@ -132,7 +132,7 @@ export default function Navbar() {
       )}
 
       {/* Modal for Signup */}
-      {true && (
+      {showSignupModal && (
         <Modal onClose={closeSignupModal}>
           <Signup onClose={closeSignupModal} />
         </Modal>
