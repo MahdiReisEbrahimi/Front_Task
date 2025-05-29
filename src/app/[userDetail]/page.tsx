@@ -6,7 +6,6 @@ import { useLoadUsers } from "@/hooks/useLoadUsers";
 import IsLoading from "@/components/reusable/IsLoading";
 import { RootState } from "@/store/index";
 import { User } from "@/store/userApi";
-import WelcomeHeader from "@/components/AuthUser/WelcomHeader";
 import ProfilePage from "@/components/AuthUser/ProfilePage";
 
 export default function UserDetailPage({
@@ -33,32 +32,32 @@ export default function UserDetailPage({
   return (
     <>
       {authUser && authUser.id == id ? (
-        <>
-          <div className="p-4">
-            <ProfilePage user={authUser} />
-          </div>
-        </>
+        <div className="p-4">
+          <ProfilePage user={authUser} />
+        </div>
       ) : (
-        <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-gradient-to-r  from-gray-600 to-black flex items-center justify-center px-4 py-12">
           {user ? (
-            <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center transform hover:scale-105 transition-transform duration-300">
+            <div className="bg-black/60 backdrop-blur-md border border-gray-700 p-8 rounded-2xl shadow-2xl max-w-md w-full text-center transform hover:scale-[1.02] transition-transform duration-300">
               <Image
                 src={user.avatar}
                 alt={`Avatar of ${user.first_name}`}
-                width={200}
-                height={200}
-                className="rounded-full mb-4 mx-auto shadow-md"
+                width={160}
+                height={160}
+                className="rounded-full mb-4 mx-auto border-4 border-gray-700 shadow-lg"
               />
-              <h2 className="text-2xl font-bold text-gray-800 mb-1">
+              <h2 className="text-3xl font-bold text-white mb-1 tracking-wide">
                 {user.first_name} {user.last_name}
               </h2>
-              <p className="text-sm text-gray-500 mb-4">
-                <span className="text-blue-600">{user.email}</span>
+              <p className="text-sm text-gray-400 mb-4 mt-5">
+                <span>Registered with : </span><span className="text-orange-400">{user.email}</span>
               </p>
-              <p className="text-md text-gray-700 italic text-left">{intro}</p>
+              <p className="text-md text-gray-300 text-left leading-relaxed">
+                {intro}
+              </p>
             </div>
           ) : (
-            <div className="text-center text-gray-600 text-xl">
+            <div className="text-center text-gray-400 text-xl">
               <IsLoading />
             </div>
           )}

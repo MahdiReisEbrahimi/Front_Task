@@ -129,7 +129,7 @@ export default function Signup({ onClose }: Signup) {
         <button
           onClick={onClose}
           type="button"
-          className="bg-red-500 flex items-center ml-3 text-white font-bold p-2 text-sm rounded-sm"
+          className="bg-red-500 cursor-pointer flex items-center ml-3 text-white font-bold p-2 text-sm rounded-sm"
         >
           Close
           <IoCloseSharp />
@@ -174,7 +174,7 @@ export default function Signup({ onClose }: Signup) {
       <div className="flex justify-center">
         <button
           type="submit"
-          className="px-4 font-bold py-2 bg-green-800 text-white rounded w-full hover:bg-blue-600 transition"
+          className="px-4 cursor-pointer font-bold py-2 bg-green-800 text-white rounded w-full hover:bg-green-700 transition"
           disabled={isLoading}
         >
           {isLoading ? "Submiting..." : "Signup"}

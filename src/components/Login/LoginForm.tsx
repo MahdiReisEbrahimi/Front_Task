@@ -105,7 +105,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         <button
           onClick={onClose}
           type="button"
-          className="bg-red-500 flex items-center ml-3 text-white font-bold p-2 text-sm rounded-sm"
+          className="bg-red-500 cursor-pointer flex items-center ml-3 text-white font-bold p-2 text-sm rounded-sm"
         >
           Close
           <IoCloseSharp />
@@ -147,7 +147,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
       <div className="flex justify-center w-full">
         <button
           type="submit"
-          className="px-4 font-bold py-2 w-full cursor-pointer bg-green-800 text-white rounded transition"
+          className="px-4 font-bold py-2 w-full cursor-pointer bg-green-800 hover:bg-green-700 text-white rounded transition"
         >
           Submit
         </button>
