@@ -10,7 +10,7 @@ import Modal from "./UI/Modal";
 import LoginForm from "./Login/LoginForm";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/index";
-import SignUpForm from "./Signup/SignUpForm";
+import Signup from "./Signup/Signup";
 
 const navItems = [{ label: "Users", href: "/" }];
 
@@ -132,9 +132,9 @@ export default function Navbar() {
       )}
 
       {/* Modal for Signup */}
-      {showSignupModal && (
+      {true && (
         <Modal onClose={closeSignupModal}>
-          <SignUpForm onClose={closeSignupModal} />
+          <Signup onClose={closeSignupModal} />
         </Modal>
       )}
     </header>
