@@ -26,8 +26,8 @@ export default function AuthPage({ user, intro }: { user: any; intro: string }) 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 flex items-center justify-center px-4 py-12">
-      <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center transition-transform transform hover:scale-105 duration-300">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12">
+      <div className="bg-black p-8 rounded-xl shadow-lg max-w-md w-full text-center transition-transform transform hover:scale-105 duration-300">
         <Image
           src={editableUser.avatar}
           alt={`Avatar of ${editableUser.first_name}`}

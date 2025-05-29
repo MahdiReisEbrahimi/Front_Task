@@ -33,11 +33,11 @@ export default function UserDetailPage({
     <>
       {authUser && authUser.id == id ? (
         <>
-          <p>Welcom back Mehdi</p>
+          <p className="mt-30">Welcom back Mehdi</p>
           <AuthPage user={authUser} intro={"interested in smth."} />
         </>
       ) : (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 flex items-center justify-center px-4 py-12">
           {user ? (
             <div className="bg-white p-8 rounded-xl shadow-lg max-w-md w-full text-center transform hover:scale-105 transition-transform duration-300">
               <Image

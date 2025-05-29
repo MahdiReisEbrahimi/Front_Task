@@ -29,7 +29,7 @@ export default function LaptopNavbar() {
           )}
           <NavButtons
             setShowModal={setShowLoginModal}
-            label="Login"
+            label={authState.isAuthenticated ? "Logout" : "Login"}
           ></NavButtons>
           <NavButtons
             setShowModal={setShowSignupModal}
