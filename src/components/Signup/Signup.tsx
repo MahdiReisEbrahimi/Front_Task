@@ -30,7 +30,7 @@ async function SignupAction(
   const firstName = formData.get("firstName")?.toString() || "";
   const lastName = formData.get("lastName")?.toString() || "";
   const email = formData.get("email")?.toString() || "";
-  
+
   const errors: string[] = [];
 
   if (!valueLengthChecker(firstName, 3))
@@ -88,7 +88,7 @@ export default function Login({ onClose }: Login) {
       action={formAction}
       className="bg-white p-6 rounded-sm shadow-xl w-full max-w-sm mx-auto"
     >
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 flex items-center justify-center">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 flex items-center justify-between">
         Signup Form
         <button
           onClick={onClose}
