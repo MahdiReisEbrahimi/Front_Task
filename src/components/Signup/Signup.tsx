@@ -138,6 +138,7 @@ export default function Signup({ onClose }: Signup) {
       </h2>
       <div className="flex">
         <Input
+          labelClassName=""
           defaultValue={formState.enteredValues?.firstName}
           inputClassName={getInputClass("First name", formState.errors || [])}
           divClassName="mx-1"
@@ -146,6 +147,7 @@ export default function Signup({ onClose }: Signup) {
           type="text"
         />
         <Input
+          labelClassName=""
           defaultValue={formState.enteredValues?.lastName}
           inputClassName={getInputClass("Last name", formState.errors || [])}
           divClassName="mx-1"
@@ -156,6 +158,7 @@ export default function Signup({ onClose }: Signup) {
       </div>
 
       <Input
+        labelClassName=""
         defaultValue={formState.enteredValues?.email}
         inputClassName={getInputClass("email", formState.errors || [])}
         divClassName="mx-2"

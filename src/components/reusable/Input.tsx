@@ -1,6 +1,7 @@
 import { getInputClass } from "@/helperFn/formValidation";
 
 type Input = {
+  labelClassName: string;
   inputClassName: string;
   divClassName: string;
   defaultValue: string;
@@ -9,6 +10,7 @@ type Input = {
   type: string;
 };
 export default function Input({
+  labelClassName,
   inputClassName,
   divClassName,
   defaultValue,
@@ -18,7 +20,10 @@ export default function Input({
 }: Input) {
   return (
     <div className={`mb-4 ${divClassName}`}>
-      <label htmlFor="firstName" className="block mb-1 text-gray-600">
+      <label
+        htmlFor="firstName"
+        className={`block mb-1 text-gray-600 ${labelClassName}`}
+      >
         {label}
       </label>
       <input
