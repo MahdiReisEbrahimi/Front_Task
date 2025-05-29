@@ -6,7 +6,8 @@ import { useLoadUsers } from "@/hooks/useLoadUsers";
 import IsLoading from "@/components/reusable/IsLoading";
 import { RootState } from "@/store/index";
 import { User } from "@/store/userApi";
-import AuthPage from "@/components/AuthUser/AuthPage";
+import WelcomeHeader from "@/components/AuthUser/WelcomHeader";
+import ProfilePage from "@/components/AuthUser/ProfilePage";
 
 export default function UserDetailPage({
   params,
@@ -33,8 +34,9 @@ export default function UserDetailPage({
     <>
       {authUser && authUser.id == id ? (
         <>
-          <p className="mt-30">Welcom back Mehdi</p>
-          <AuthPage user={authUser} intro={"interested in smth."} />
+          <div className="p-4">
+            <ProfilePage user={authUser} />
+          </div>
         </>
       ) : (
         <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 flex items-center justify-center px-4 py-12">

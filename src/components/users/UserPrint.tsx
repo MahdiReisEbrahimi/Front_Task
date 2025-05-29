@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { User } from "@/store/userApi";
-import Button from "./reusable/Button";
+import Button from "@/components/reusable/Button";
 
 export default function UserPrint({ user }: { user: User }) {
   return (

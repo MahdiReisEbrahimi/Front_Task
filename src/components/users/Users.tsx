@@ -3,8 +3,7 @@
 import { User } from "@/store/userApi";
 import UserPrint from "./UserPrint";
 import { useLoadUsers } from "@/hooks/useLoadUsers";
-import IsLoading from "./reusable/IsLoading";
-import Login from "./Login/Login";
+import IsLoading from "../reusable/IsLoading";
 
 export default function Users() {
   const { users, isLoading, error } = useLoadUsers() as {
