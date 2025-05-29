@@ -28,7 +28,7 @@ export default function ImagePicker({ label, name }: ImagePickerProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-1">
       <label htmlFor={name} className="block text-gray-600 ml-2">
         {label}
       </label>
