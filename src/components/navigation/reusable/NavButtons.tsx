@@ -28,8 +28,6 @@ export default function NavButtons({ setShowModal, label }: NavButtonsType) {
       {label == "Login" && <LuLogIn className="ml-6" />}
       {label == "Logout" && <FaPowerOff className="ml-6" />}
       {label == "Signup" && <RiAddBoxFill className="ml-6" />}
-      {label == "Profile" && <BsFillPersonVcardFill className="ml-6" />}
-      {label == "Users" && <PiUsersFill className="ml-6" />}
 
       <p className="ml-4">{label}</p>
     </button>

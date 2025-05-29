@@ -29,7 +29,7 @@ export default function WelcomeHeader({
         <button
           type="button"
           onClick={onEditClick}
-          className="bg-black md:mt-10 p-3 font-bold cursor-pointer hover:bg-gray-300 hover:text-black transition rounded-sm"
+          className="bg-black p-3 font-bold cursor-pointer hover:bg-gray-300 hover:text-black transition rounded-sm"
         >
           Edit Profile
         </button>

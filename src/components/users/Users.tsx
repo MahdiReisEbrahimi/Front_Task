@@ -16,7 +16,7 @@ export default function Users() {
 
   return (
     <>
-      <ul className="grid sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 2xl:grid-cols-4 gap-6 p-6 mt-5 sm:mt-20">
+      <ul className="grid mt-10 lg:mt-5 sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 2xl:grid-cols-4 gap-6 p-6">
         {users.map((user) => (
           <UserPrint key={user.id} user={user} />
         ))}

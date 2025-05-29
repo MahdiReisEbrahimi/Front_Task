@@ -19,7 +19,7 @@ export default function RootLayout({
         <div id="overlays" />
         <ReduxProvider>
           <Navbar />
-          <main className=" px-4 lg:ml-64">{children}</main>
+          <main className="ml-0 lg:ml-63">{children}</main>
         </ReduxProvider>
       </body>
     </html>

@@ -16,7 +16,7 @@ export default function ProfilePage({ user }: { user: User }) {
           onCancel={() => setIsEditing(false)}
         />
       )}
-      <div className="h-500"></div>
+      <div className="h-146"></div>
     </div>
   );
 }

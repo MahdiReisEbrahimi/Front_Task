@@ -113,8 +113,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
       </h2>
 
       <Input
-              labelClassName=""
-
+        labelClassName=""
         defaultValue={formState.enteredValues?.firstName}
         inputClassName={getInputClass("First name", formState.errors || [])}
         divClassName=""
@@ -124,8 +123,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
       />
 
       <Input
-              labelClassName=""
-
+        labelClassName=""
         defaultValue={formState.enteredValues?.lastName}
         inputClassName={getInputClass("Last name", formState.errors || [])}
         divClassName=""
@@ -135,8 +133,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
       />
 
       <Input
-              labelClassName=""
-
+        labelClassName=""
         defaultValue={formState.enteredValues?.email}
         inputClassName={getInputClass("email", formState.errors || [])}
         divClassName=""

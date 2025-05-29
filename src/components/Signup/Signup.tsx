@@ -100,7 +100,6 @@ export default function Signup({ onClose }: Signup) {
   useEffect(() => {
     if (formState.errors === null && formState.activeUser) {
       const handleSignup = async () => {
-        console.log(formState.activeUser);
         const result = await signup(formState.activeUser);
 
         if (result.success) {
