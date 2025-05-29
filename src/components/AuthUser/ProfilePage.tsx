@@ -5,7 +5,7 @@ import EditProfileForm from "./EditProfileForm";
 import { User } from "@/store/userApi";
 
 export default function ProfilePage({ user }: { user: User }) {
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <div className="px-4 py-8">

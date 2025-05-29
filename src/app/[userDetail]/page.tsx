@@ -22,12 +22,21 @@ export default function UserDetailPage({
   const { userDetail } = use(params);
   const id = userDetail;
 
-  const { users } = useLoadUsers();
+  const { users, error } = useLoadUsers();
   const user = users.find((user) => user.id == id);
 
   const intro = user
     ? `${user.first_name} ${user.last_name} is one of our active users, registered with the email ${user.email}.`
     : "";
+
+  if (!user)
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <p className="font-bold bg-white p-2 rounded-sm ">
+          An Error accured! Probably an incorrect user detail is requested.
+        </p>
+      </div>
+    );
 
   return (
     <>
@@ -50,7 +59,8 @@ export default function UserDetailPage({
                 {user.first_name} {user.last_name}
               </h2>
               <p className="text-sm text-gray-400 mb-4 mt-5">
-                <span>Registered with : </span><span className="text-orange-400">{user.email}</span>
+                <span>Registered with : </span>
+                <span className="text-orange-400">{user.email}</span>
               </p>
               <p className="text-md text-gray-300 text-left leading-relaxed">
                 {intro}

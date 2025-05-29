@@ -13,6 +13,7 @@ export default function Users() {
   };
 
   if (isLoading) return <IsLoading />;
+  if (error) return <p className="text-red-500 text-center mt-10">❌ Error loading users. Please check the URL or try again later.</p>;
 
   return (
     <>

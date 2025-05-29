@@ -1,6 +1,6 @@
 export default function IsLoading() {
   return (
-    <div className="mt-20 rounded-sm m-auto flex justify-center items-center h-10">
+    <div className="rounded-sm m-auto flex justify-center items-center h-screen">
       <p className="text-sm text-white flex items-center space-x-1">
         <span>Loading Data</span>
         <span className="loading-dots">
