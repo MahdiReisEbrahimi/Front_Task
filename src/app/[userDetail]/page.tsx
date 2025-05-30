@@ -7,6 +7,7 @@ import IsLoading from "@/components/reusable/IsLoading";
 import { RootState } from "@/store/index";
 import { User } from "@/store/userApi";
 import ProfilePage from "@/components/AuthUser/ProfilePage";
+import Error from "@/components/reusable/Error";
 
 export default function UserDetailPage({
   params,
@@ -14,6 +15,8 @@ export default function UserDetailPage({
   params: Promise<{ userDetail: string }>;
 }) {
   const auth = useSelector((state: RootState) => state.auth);
+  const users = useSelector((state: RootState) => state.users.users);
+
   let authUser: User | null = null;
   if (auth.isAuthenticated) {
     authUser = auth.user;
@@ -22,27 +25,26 @@ export default function UserDetailPage({
   const { userDetail } = use(params);
   const id = userDetail;
 
-  const { users, error } = useLoadUsers();
+  const { error } = useLoadUsers();
+
   const user = users.find((user) => user.id == id);
 
   const intro = user
     ? `${user.first_name} ${user.last_name} is one of our active users, registered with the email ${user.email}.`
     : "";
 
-  if (!user)
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <p className="font-bold bg-white p-2 rounded-sm ">
-          An Error accured! Probably an incorrect user detail is requested.
-        </p>
-      </div>
+  {
+    user || (
+      <Error message="An Error accured! incorrect user id is requested." />
     );
+    error && <Error message="An Error accured during fetch data!" />;
+  }
 
   return (
     <>
       {authUser && authUser.id == id ? (
         <div className="p-4">
-          <ProfilePage user={authUser} />
+          <ProfilePage id={authUser.id} />
         </div>
       ) : (
         <div className="min-h-screen bg-gradient-to-r  from-gray-600 to-black flex items-center justify-center px-4 py-12">
