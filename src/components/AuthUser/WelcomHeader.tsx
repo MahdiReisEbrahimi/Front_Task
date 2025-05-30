@@ -7,7 +7,6 @@ import { deleteUser } from "@/store/userSlice";
 import { useRouter } from "next/navigation";
 import { logout } from "@/store/authSlice";
 import { useState } from "react";
-import Modal from "../UI/Modal";
 import PermissionToDelete from "./PermissionToDelete";
 
 interface WelcomeHeader {
@@ -20,6 +19,7 @@ export default function WelcomeHeader({ user, onEditClick }: WelcomeHeader) {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
 
+  // Triggered after user confirms deletion
   const handleConfirmDelete = () => {
     dispatch(deleteUser(user.id));
     dispatch(logout());
@@ -28,7 +28,7 @@ export default function WelcomeHeader({ user, onEditClick }: WelcomeHeader) {
 
   return (
     <>
-      {/* Profile Header */}
+      {/* Header section with user avatar and greeting */}
       <div className="relative bg-gradient-to-r from-black to-gray-600 text-white py-10 px-6 rounded-sm shadow-md mb-8 overflow-hidden mt-20">
         <div className="flex flex-col md:flex-row items-center justify-between z-10 relative">
           <div className="flex items-center space-x-6">
@@ -49,10 +49,12 @@ export default function WelcomeHeader({ user, onEditClick }: WelcomeHeader) {
               </p>
             </div>
           </div>
+          
+          {/* Action buttons */}
           <div>
             <button
               type="button"
-              onClick={() => setShowModal(true)}
+              onClick={() => setShowModal(true)} // Open delete confirmation modal
               className="bg-black mr-5 p-3 font-bold cursor-pointer hover:bg-gray-300 hover:text-black transition rounded-sm"
             >
               Delete Profile
@@ -66,10 +68,12 @@ export default function WelcomeHeader({ user, onEditClick }: WelcomeHeader) {
             </button>
           </div>
         </div>
+
+        {/* Decorative circle in background */}
         <div className="absolute top-0 right-0 w-48 h-48 bg-white opacity-10 rounded-full transform translate-x-1/2 -translate-y-1/2" />
       </div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Modal for confirming profile deletion */}
       {showModal && (
         <PermissionToDelete
           handleConfirmDelete={handleConfirmDelete}
