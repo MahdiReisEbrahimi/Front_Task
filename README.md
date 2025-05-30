@@ -26,3 +26,6 @@ A front-end task to implement an SPA application to perform CRUD operations on a
 
 - Start the development server:
 - npm run dev
+
+
+![Preview](https://github.com/MahdiReisEbrahimi/Front_Task/blob/main/public/previewImages/ex1.png?raw=true)
