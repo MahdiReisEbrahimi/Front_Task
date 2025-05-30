@@ -10,7 +10,6 @@ import {
 import ImagePicker from "../reusable/ImagePicker";
 import { IoCloseSharp } from "react-icons/io5";
 import { useActionState, useEffect, useState } from "react";
-import { useLoadUsers } from "@/hooks/useLoadUsers";
 import { useSignup } from "@/hooks/useSignup";
 import { useDispatch } from "react-redux";
 import { addUser } from "@/store/userSlice";
@@ -32,12 +31,12 @@ interface Signup {
   onClose: () => void;
 }
 export default function Signup({ onClose }: Signup) {
-  const { users } = useLoadUsers();
   const dispatch = useDispatch();
   const router = useRouter();
   const { signup, isLoading, error } = useSignup();
 
-  if (error) return <Error message="Fetching data failed. Please try again latar"/>
+  if (error)
+    return <Error message="Fetching data failed. Please try again latar" />;
 
   const [formState, formAction] = useActionState<
     SignupState & { activeUser?: User | null },

@@ -25,7 +25,7 @@ export default function UserDetailPage({
   const { userDetail } = use(params);
   const id = userDetail;
 
-  const { error , isLoading } = useLoadUsers();
+  const { isLoading } = useLoadUsers();
 
   const user = users.find((user) => user.id == id);
 
@@ -34,11 +34,7 @@ export default function UserDetailPage({
     : "";
 
   if (!user && !isLoading)
-    return (
-      <Error message="An Error accured! incorrect user id is requested." />
-    );
-  if (error) return <Error message="An Error accured during fetch data!" />;
-
+    return <Error message="incorrect user id is requested." />;
   return (
     <>
       {/* if user is loged in */}
