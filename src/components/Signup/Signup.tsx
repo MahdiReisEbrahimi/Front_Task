@@ -15,85 +15,34 @@ import { useSignup } from "@/hooks/useSignup";
 import { useDispatch } from "react-redux";
 import { addUser } from "@/store/userSlice";
 import { useRouter } from "next/navigation";
+import { signupAction } from "@/actions/signup/server-action";
+import Error from "../reusable/Error";
 
-interface SignupState {
+type SignupState = {
   errors: string[] | null;
   enteredValues: {
     firstName: string;
     lastName: string;
     email: string;
-    avatar?: string;
+    avatar: string;
   };
-}
+};
+
 interface Signup {
   onClose: () => void;
 }
-
-// SignupForm Action :
-async function SignupAction(
-  prevState: SignupState,
-  formData: FormData,
-  users: User[]
-): Promise<SignupState & { activeUser?: User | null }> {
-  const firstName = formData.get("firstName")?.toString() || "";
-  const lastName = formData.get("lastName")?.toString() || "";
-  const email = formData.get("email")?.toString() || "";
-
-  // Selected Avatar:
-  const avatar = formData.get("avatar") as File | null;
-  const imageBuffer = await avatar.arrayBuffer();
-  const avatarBase64 = Buffer.from(imageBuffer).toString("base64");
-
-  const errors: string[] = [];
-
-  if (!valueLengthChecker(firstName, 3))
-    errors.push("First name must be at least 3 characters.");
-  if (!valueLengthChecker(lastName, 3))
-    errors.push("Last name must be at least 3 characters.");
-  if (!emailChecker(email)) errors.push("Email is invalid!");
-  if (!avatar || avatar.size === 0) {
-    errors.push("Please pick an avatar image.");
-  }
-
-  const enteredValues: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    avatar: string;
-  } = { firstName, lastName, email, avatar: avatarBase64 };
-
-  if (errors.length > 0) {
-    return {
-      errors,
-      enteredValues,
-    };
-  }
-
-  return {
-    errors: null,
-    enteredValues: { firstName: "", lastName: "", email: "", avatar: "" },
-    activeUser: {
-      id: crypto.randomUUID().toString(),
-      email,
-      first_name: firstName,
-      last_name: lastName,
-      avatar: "https://tinyjpg.com/images/social/website.jpg",
-    },
-  };
-}
-
 export default function Signup({ onClose }: Signup) {
   const { users } = useLoadUsers();
   const dispatch = useDispatch();
   const router = useRouter();
   const { signup, isLoading, error } = useSignup();
 
-  if (error) return <p>Fetching data failed. Please try again latar</p>;
+  if (error) return <Error message="Fetching data failed. Please try again latar"/>
 
   const [formState, formAction] = useActionState<
     SignupState & { activeUser?: User | null },
     FormData
-  >((prevState, formData) => SignupAction(prevState, formData, users), {
+  >((prevState, formData) => signupAction(prevState, formData), {
     errors: null,
     enteredValues: { firstName: "", lastName: "", email: "", avatar: "" },
   });
