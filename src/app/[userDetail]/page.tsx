@@ -50,13 +50,15 @@ export default function UserDetailPage({
         <div className="min-h-screen bg-gradient-to-r  from-gray-600 to-black flex items-center justify-center px-4 py-12">
           {user ? (
             <div className="bg-black/60 backdrop-blur-md border border-gray-700 p-8 rounded-2xl shadow-2xl max-w-md w-full text-center transform hover:scale-[1.02] transition-transform duration-300">
-              <Image
-                src={user.avatar}
-                alt={`Avatar of ${user.first_name}`}
-                width={160}
-                height={160}
-                className="rounded-full mb-4 mx-auto border-4 border-gray-700 shadow-lg"
-              />
+              <div className="relative w-50 h-50 mb-7 m-auto">
+                <Image
+                  src={user.avatar}
+                  alt={`Avatar of ${user.first_name}`}
+                  fill
+                  className="rounded-full mx-auto border-4 border-gray-700 shadow-lg"
+                />
+              </div>
+
               <h2 className="text-3xl font-bold text-white mb-1 tracking-wide">
                 {user.first_name} {user.last_name}
               </h2>
