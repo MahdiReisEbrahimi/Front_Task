@@ -1,32 +1,37 @@
 "use client";
-import { useEffect, useState } from "react";
-import { useGetUsersQuery } from "@/store/userApi";
+import { useState } from "react";
 import type { User } from "@/store/userApi";
 
 export function useFetchUsers() {
-  const [allUsers, setAllUsers] = useState<User[]>([]);
-  const [page, setPage] = useState(1);
-  const [done, setDone] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<unknown>(null);
 
-  const { data, isLoading, isFetching, isError } = useGetUsersQuery(page);
+  const fetchUsers = async (): Promise<User[]> => {
+    setIsLoading(true);
+    setError(null);
+    let allUsers: User[] = [];
+    let page = 1;
+    let totalPages = 1;
 
-  useEffect(() => {
-    if (data) {
-      setAllUsers((prev) => [...prev, ...data.data]);
-      const nextPage = page + 1;
+    try {
+      do {
+        const res = await fetch(`https://reqres.in/api/users?page=${page}`);
+        if (!res.ok) throw new Error("Failed to fetch users");
 
-      if (nextPage <= data.total_pages) {
-        setPage(nextPage); // go for next page
-      } else {
-        setDone(true);
-      }
+        const data = await res.json();
+        allUsers = [...allUsers, ...data.data];
+        totalPages = data.total_pages;
+        page += 1;
+      } while (page <= totalPages);
+
+      return allUsers;
+    } catch (err) {
+      setError(err);
+      return [];
+    } finally {
+      setIsLoading(false);
     }
-  }, [data]);
-
-  return {
-    users: allUsers,
-    isLoading: isLoading || isFetching,
-    isError,
-    done,
   };
+
+  return { fetchUsers, isLoading, error };
 }

@@ -20,46 +20,42 @@ export function useLoadUsers() {
   const query1 = useGetUsersQuery(1, { skip: !shouldFetch });
   const query2 = useGetUsersQuery(2, { skip: !shouldFetch });
 
-  // Use the combined loading state from RTK Query
   const isLoading = shouldFetch && (query1.isLoading || query2.isLoading);
-  // Use the combined error state from RTK Query or your local error
   const hasError = query1.isError || query2.isError || !!loadError;
 
   useEffect(() => {
     if (!shouldFetch || isDone) return;
 
-    // Check for errors from RTK Query immediately
     if (query1.isError || query2.isError) {
       setLoadError(query1.error || query2.error);
-      setIsDone(true); // Stop further processing
+      setIsDone(true);
       return;
     }
 
-    // Only process data when both queries have successfully loaded data
     if (
       query1.data &&
       query2.data &&
       !query1.isLoading &&
       !query2.isLoading &&
-      !query1.isFetching && // Ensure fetching is complete
+      !query1.isFetching &&
       !query2.isFetching
     ) {
       const combined = [...query1.data.data, ...query2.data.data];
 
       if (combined.length === 0) {
-        setLoadError("No users found."); // Set error if no users are found after successful fetch
+        setLoadError("No users found.");
       } else {
         setCombinedUsers(combined);
         dispatch(updateUsers(combined));
       }
 
-      setIsDone(true); // Mark as done after processing data or setting an error
+      setIsDone(true);
     }
-  }, [query1, query2, dispatch, shouldFetch, isDone]); // Added isFetching to dependency array implicitly via query objects
+  }, [query1, query2, dispatch, shouldFetch, isDone]);
 
   return {
     users: reduxUsers.length > 0 ? reduxUsers : combinedUsers,
-    isLoading: isLoading && !hasError, // isLoading should be false if there's an error
-    error: loadError, // Return the collected error
+    isLoading: isLoading && !hasError,
+    error: loadError,
   };
 }

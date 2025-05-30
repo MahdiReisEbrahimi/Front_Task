@@ -88,6 +88,8 @@ export default function Signup({ onClose }: Signup) {
   const router = useRouter();
   const { signup, isLoading, error } = useSignup();
 
+  if (error) return <p>Fetching data failed. Please try again latar</p>;
+
   const [formState, formAction] = useActionState<
     SignupState & { activeUser?: User | null },
     FormData
