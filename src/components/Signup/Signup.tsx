@@ -67,8 +67,6 @@ export default function Signup({ onClose }: Signup) {
           setTimeout(() => {
             router.push(`/${result.data.id}`);
           }, 100);
-        } else {
-          console.log("Signup failed", result.error);
         }
       };
 
