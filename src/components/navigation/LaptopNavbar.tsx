@@ -1,4 +1,5 @@
 "use client";
+
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaIcons } from "react-icons/fa";
@@ -12,9 +13,23 @@ import LoginForm from "../Login/LoginForm";
 
 export default function LaptopNavbar() {
   const pathname = usePathname();
+
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
+
   const authState = useSelector((state: RootState) => state.auth);
+
+  // Ensure only one modal is visible at a time
+  function handleModal(label: string) {
+    setShowLoginModal(false);
+    setShowSignupModal(false);
+
+    if (label === "Login") {
+      setShowLoginModal(true);
+    } else if (label === "Signup") {
+      setShowSignupModal(true);
+    }
+  }
 
   return (
     <>
@@ -22,20 +37,21 @@ export default function LaptopNavbar() {
         <div className="text-2xl font-bold flex items-center mb-10 mt-8 ml-8">
           Userly <FaIcons className="ml-2 text-white" />
         </div>
+
         <nav className="flex flex-col space-y-4">
-          <NavLink label="Users" pathname={pathname}></NavLink>
+          <NavLink label="Users" pathname={pathname} />
+
           {authState.isAuthenticated && (
-            <NavLink label="Profile" pathname={pathname}></NavLink>
+            <NavLink label="Profile" pathname={pathname} />
           )}
+
           <NavButtons
-            setShowModal={setShowLoginModal}
             label={authState.isAuthenticated ? "Logout" : "Login"}
-          ></NavButtons>
-          {authState.isAuthenticated || (
-            <NavButtons
-              setShowModal={setShowSignupModal}
-              label="Signup"
-            ></NavButtons>
+            onClick={handleModal}
+          />
+
+          {!authState.isAuthenticated && (
+            <NavButtons label="Signup" onClick={handleModal} />
           )}
         </nav>
       </aside>
