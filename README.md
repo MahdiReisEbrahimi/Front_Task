@@ -1,4 +1,5 @@
 # Front_Task
+
 A front-end task to implement an SPA application to perform CRUD operations on a list of users using Next.js.
 
 # Tech Stack
@@ -27,5 +28,9 @@ A front-end task to implement an SPA application to perform CRUD operations on a
 - Start the development server:
 - npm run dev
 
+# App Previw images
 
-![Preview](https://github.com/mahdireisebrahimi/Front_Task/blob/main/public/previewImages/ex1.png?raw=true)
+![Preview1](https://github.com/mahdireisebrahimi/Front_Task/blob/main/public/previewImages/ex1.png?raw=true)
+![Preview2](https://github.com/mahdireisebrahimi/Front_Task/blob/main/public/previewImages/ex2.png?raw=true)
+![Preview3](https://github.com/mahdireisebrahimi/Front_Task/blob/main/public/previewImages/ex3.png?raw=true)
+![Preview4](https://github.com/mahdireisebrahimi/Front_Task/blob/main/public/previewImages/ex4.png?raw=true)
