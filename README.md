@@ -28,4 +28,4 @@ A front-end task to implement an SPA application to perform CRUD operations on a
 - npm run dev
 
 
-![Preview](https://github.com/MahdiReisEbrahimi/Front_Task/blob/main/public/previewImages/ex1.png?raw=true)
+![Preview](https://github.com/mahdireisebrahimi/Front_Task/blob/main/public/previewImages/ex1.png?raw=true)
