@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
-import Modal from "../UI/Modal";
 import { motion } from "framer-motion";
-import { useSelector, UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store/index";
 import LoginForm from "./LoginForm";
 import { useTransition } from "react";
@@ -14,7 +13,7 @@ export default function Login({ onClick }: { onClick: () => void }) {
   const openModalHandler = () => {
     setShowModal(true);
     startTransition(() => {
-      onClick(); // بستن منوی موبایل به صورت async
+      onClick(); // close mobile menu
     });
   };
 
