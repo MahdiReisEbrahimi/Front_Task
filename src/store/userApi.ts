@@ -16,6 +16,7 @@ export interface UserResponse {
   data: User[];
 }
 
+// API QUERYs useing RTK
 export const userApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({

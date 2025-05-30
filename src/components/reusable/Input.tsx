@@ -1,5 +1,3 @@
-import { getInputClass } from "@/helperFn/formValidation";
-
 type Input = {
   labelClassName: string;
   inputClassName: string;
@@ -9,6 +7,8 @@ type Input = {
   id: string;
   type: string;
 };
+
+// reusable inputs which used in login / logout / editUserProfile forms.
 export default function Input({
   labelClassName,
   inputClassName,

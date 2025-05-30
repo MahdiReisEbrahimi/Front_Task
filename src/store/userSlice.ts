@@ -9,13 +9,22 @@ const userSlice = createSlice({
   name: "users",
   initialState: usersInitialState,
   reducers: {
+    // Replace all users
     updateUsers(state, action: PayloadAction<User[]>) {
       state.users = action.payload;
     },
+
+    // Add a single user
     addUser(state, action: PayloadAction<User>) {
       state.users.push(action.payload);
     },
-    clearUsers() {},
+
+    // Clear all users
+    clearUsers(state) {
+      state.users = [];
+    },
+
+    // Edit a user by ID
     editUser(state, action: PayloadAction<User>) {
       const index = state.users.findIndex(
         (user) => user.id === action.payload.id
@@ -25,7 +34,10 @@ const userSlice = createSlice({
       }
     },
 
-    deleteUser() {},
+    // Delete a user by ID
+    deleteUser(state, action: PayloadAction<string>) {
+      state.users = state.users.filter((user) => user.id !== action.payload);
+    },
   },
 });
 

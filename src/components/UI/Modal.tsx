@@ -7,10 +7,12 @@ type ModalProps = {
   onClose?: () => void;
 };
 
+// Semi-transparent background to close modal when clicked
 const Backdrop = ({ onClose }: { onClose?: () => void }) => {
   return <div className={classes.backdrop} onClick={onClose} />;
 };
 
+// Modal box content wrapper
 const ModalOverlay = ({ children }: { children: ReactNode }) => {
   return (
     <div className={classes.modal}>
@@ -19,14 +21,16 @@ const ModalOverlay = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Main Modal component using a React portal
 const Modal = ({ children, onClose }: ModalProps) => {
   const [portalElement, setPortalElement] = useState<HTMLElement | null>(null);
 
+  // Get the target DOM node for portal rendering after component mounts
   useEffect(() => {
     setPortalElement(document.getElementById("overlays"));
   }, []);
 
-  if (!portalElement) return null;
+  if (!portalElement) return null; // Prevent rendering if portal target doesn't exist
 
   return (
     <Fragment>

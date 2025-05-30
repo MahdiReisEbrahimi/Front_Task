@@ -1,3 +1,5 @@
+// to show a good looking loading text...
+
 export default function IsLoading() {
   return (
     <div className="rounded-sm m-auto flex justify-center items-center h-screen">

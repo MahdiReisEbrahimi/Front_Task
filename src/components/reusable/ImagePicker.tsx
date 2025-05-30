@@ -1,4 +1,5 @@
 "use client";
+
 import { useRef, useState, ChangeEvent } from "react";
 import Image from "next/image";
 
@@ -9,8 +10,9 @@ interface ImagePickerProps {
 
 export default function ImagePicker({ label, name }: ImagePickerProps) {
   const [pickedImage, setPickedImage] = useState<string | undefined>();
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null); // Used to programmatically trigger the file input
 
+  // Handles file input change and sets the selected image as a data URL
   function handleImageChange(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -23,6 +25,7 @@ export default function ImagePicker({ label, name }: ImagePickerProps) {
     fileReader.readAsDataURL(file);
   }
 
+  // Triggers the hidden file input when the preview area is clicked
   function handlePickClick() {
     inputRef.current?.click();
   }
@@ -34,6 +37,7 @@ export default function ImagePicker({ label, name }: ImagePickerProps) {
       </label>
 
       <div className="flex flex-col items-center gap-4">
+        {/* Image preview container */}
         <div
           onClick={handlePickClick}
           className="relative w-30 h-30 mb-4 bg-gray-100 border-2 border-dashed border-gray-300 rounded-xl overflow-hidden shadow-sm"
@@ -55,6 +59,7 @@ export default function ImagePicker({ label, name }: ImagePickerProps) {
           )}
         </div>
 
+        {/* Hidden file input */}
         <input
           type="file"
           id={name}

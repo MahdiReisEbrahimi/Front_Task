@@ -2,6 +2,7 @@ import Image from "next/image";
 import { User } from "@/store/userApi";
 import Button from "@/components/reusable/Button";
 
+// to print every one user in users page or detail page.
 export default function UserPrint({ user }: { user: User }) {
   return (
     <li className="bg-black rounded-sm shadow-md hover:shadow-xl transition-shadow duration-300 p-4 flex flex-col items-center text-center shadow-gray-600">

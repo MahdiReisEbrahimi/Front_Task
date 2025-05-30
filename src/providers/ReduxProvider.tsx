@@ -4,6 +4,7 @@
 import { Provider } from "react-redux";
 import store from "@/store/index";
 
+// to provide redux to the main layout page
 export default function ReduxProvider({
   children,
 }: {

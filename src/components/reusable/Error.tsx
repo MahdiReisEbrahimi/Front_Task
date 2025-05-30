@@ -1,3 +1,5 @@
+// Printing fetch or other errors here
+
 export default function Error({ message }: { message: string }) {
   return (
     <div className="flex justify-center items-center m-auto h-screen w-1/2">

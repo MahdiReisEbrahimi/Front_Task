@@ -1,4 +1,5 @@
 "use client";
+
 import Input from "@/components/reusable/Input";
 import PrintFormErrors from "@/components/reusable/PrintFormErrors";
 import { User } from "@/store/userApi";
@@ -17,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { signupAction } from "@/actions/signup/server-action";
 import Error from "../reusable/Error";
 
+// Types for managing form state and props
 type SignupState = {
   errors: string[] | null;
   enteredValues: {
@@ -30,14 +32,17 @@ type SignupState = {
 interface Signup {
   onClose: () => void;
 }
+
 export default function Signup({ onClose }: Signup) {
   const dispatch = useDispatch();
   const router = useRouter();
   const { signup, isLoading, error } = useSignup();
 
+  // Handle API error from custom signup hook
   if (error)
-    return <Error message="Fetching data failed. Please try again latar" />;
+    return <Error message="Fetching data failed. Please try again later" />;
 
+  // useActionState allows progressive enhancement and form submission via actions
   const [formState, formAction] = useActionState<
     SignupState & { activeUser?: User | null },
     FormData
@@ -46,7 +51,10 @@ export default function Signup({ onClose }: Signup) {
     enteredValues: { firstName: "", lastName: "", email: "", avatar: "" },
   });
 
-  // handling data submition (API AND REDUX) :
+  // Handle side effects after successful form submission:
+  // - Calls custom signup hook
+  // - Updates Redux store
+  // - Navigates to user's page
   useEffect(() => {
     if (formState.errors === null && formState.activeUser) {
       const handleSignup = async () => {
@@ -54,7 +62,6 @@ export default function Signup({ onClose }: Signup) {
 
         if (result.success) {
           dispatch(addUser(result.data));
-
           onClose();
 
           setTimeout(() => {
@@ -85,6 +92,8 @@ export default function Signup({ onClose }: Signup) {
           <IoCloseSharp />
         </button>
       </h2>
+
+      {/* First and Last Name fields side-by-side */}
       <div className="flex">
         <Input
           labelClassName=""
@@ -106,6 +115,7 @@ export default function Signup({ onClose }: Signup) {
         />
       </div>
 
+      {/* Email field */}
       <Input
         labelClassName=""
         defaultValue={formState.enteredValues?.email}
@@ -116,18 +126,20 @@ export default function Signup({ onClose }: Signup) {
         type="email"
       />
 
+      {/* Avatar image picker */}
       <ImagePicker name="avatar" label="Pick your Avatar" />
 
-      {/* Print form Errors */}
+      {/* Display any server-side form validation errors */}
       {formState.errors && <PrintFormErrors errors={formState.errors} />}
 
+      {/* Submit button */}
       <div className="flex justify-center">
         <button
           type="submit"
           className="px-4 cursor-pointer font-bold py-2 bg-green-800 text-white rounded w-full hover:bg-green-700 transition"
           disabled={isLoading}
         >
-          {isLoading ? "Submiting..." : "Signup"}
+          {isLoading ? "Submitting..." : "Signup"}
         </button>
       </div>
     </form>
