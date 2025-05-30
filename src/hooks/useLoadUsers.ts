@@ -15,7 +15,7 @@ export function useLoadUsers() {
 
   const [combinedUsers, setCombinedUsers] = useState<User[]>([]);
   const [isDone, setIsDone] = useState(false);
-  const [loadError, setLoadError] = useState<unknown>(null); // Renamed to avoid conflict with RTK Query's error
+  const [loadError, setLoadError] = useState<unknown>(null);
 
   const query1 = useGetUsersQuery(1, { skip: !shouldFetch });
   const query2 = useGetUsersQuery(2, { skip: !shouldFetch });
