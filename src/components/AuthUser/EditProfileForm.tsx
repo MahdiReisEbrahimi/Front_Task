@@ -7,6 +7,8 @@ import Input from "../reusable/Input";
 import PrintFormErrors from "../reusable/PrintFormErrors";
 import { editUser } from "@/store/userSlice";
 import { valueLengthChecker, emailChecker } from "@/helperFn/formValidation";
+import Error from "../reusable/Error";
+import { useUpdateUserServer } from "@/hooks/useUpdateUserServer";
 
 interface EditProfileFormProps {
   user: {
@@ -75,12 +77,51 @@ export default function EditProfileForm({
     userId: user.id,
   });
 
+  const { updateUser, updatedUser, loading, error } = useUpdateUserServer();
+
   useEffect(() => {
-    if (formState.activeUser) {
-      dispatch(editUser(formState.activeUser));
-      onCancel();
+    if (!formState.activeUser) return;
+
+    const active = formState.activeUser;
+
+    const runUpdate = async () => {
+      await updateUser({
+        id: active.id,
+        first_name: active.first_name,
+        last_name: active.last_name,
+        email: active.email,
+        avatar: active.avatar,
+      });
+    };
+
+    runUpdate();
+  }, [formState.activeUser]);
+
+  useEffect(() => {
+    // save edits on redux
+    if (updatedUser) {
+      const okUpdatedUser: {
+        first_name: string;
+        last_name: string;
+        email: string;
+        avatar: string;
+        id: string;
+      } = {
+        first_name: updatedUser.first_name,
+        last_name: updatedUser.last_name,
+        email: updatedUser.email,
+        avatar: updatedUser.avatar,
+        id: formState.activeUser.id,
+      };
+      dispatch(editUser(okUpdatedUser));
+      onCancel(); // close edit form
     }
-  }, [formState.activeUser, dispatch, onCancel]);
+  }, [updatedUser, error]);
+
+  if (error)
+    return (
+      <Error message="Error accured during update. Please try again later." />
+    );
 
   return (
     <form
@@ -141,8 +182,9 @@ export default function EditProfileForm({
         <button
           type="submit"
           className="px-4 py-2 cursor-pointer bg-green-800 font-bold text-white rounded hover:bg-green-700 transition"
+          disabled={loading}
         >
-          Save Changes
+          {loading ? "Saving..." : "Save Changes"}
         </button>
       </div>
     </form>
