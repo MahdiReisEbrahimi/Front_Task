@@ -3,12 +3,12 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { FaIcons } from "react-icons/fa";
 import Modal from "../UI/Modal";
-import LoginForm from "../Login/LoginForm";
 import Signup from "../Signup/Signup";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import NavButtons from "./reusable/NavButtons";
 import NavLink from "./reusable/NavLink";
+import LoginForm from "../Login/LoginForm";
 
 export default function LaptopNavbar() {
   const pathname = usePathname();

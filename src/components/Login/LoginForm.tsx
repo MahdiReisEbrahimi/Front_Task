@@ -1,10 +1,7 @@
 "use client";
+
 import { useActionState } from "react";
-import {
-  valueLengthChecker,
-  emailChecker,
-  getInputClass,
-} from "@/helperFn/formValidation";
+import { getInputClass } from "@/helperFn/formValidation";
 import { useLoadUsers } from "@/hooks/useLoadUsers";
 import { User } from "@/store/userApi";
 import { useDispatch } from "react-redux";
@@ -16,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { IoCloseSharp } from "react-icons/io5";
 import { loginAction } from "@/actions/login/login-action";
 
+// Define the shape of form state used by useActionState
 interface LoginState {
   errors: string[] | null;
   enteredValues: {
@@ -26,23 +24,33 @@ interface LoginState {
 }
 
 export default function LoginForm({ onClose }: { onClose: () => void }) {
+  // Load mock or remote users from the server or local cache
   const { users } = useLoadUsers();
+
   const dispatch = useDispatch();
   const router = useRouter();
+
+  // useActionState is used to handle async form submissions in a stateful way
   const [formState, formAction] = useActionState<
     LoginState & { activeUser?: User | null },
     FormData
-  >((prevState, formData) => loginAction(prevState, formData, users), {
-    errors: null,
-    enteredValues: { firstName: "", lastName: "", email: "" },
-  });
+  >(
+    // Call the loginAction with previous state, formData, and users list
+    (prevState, formData) => loginAction(prevState, formData, users),
+    {
+      // Initial state
+      errors: null,
+      enteredValues: { firstName: "", lastName: "", email: "" },
+    }
+  );
 
   useEffect(() => {
+    // When a valid user is returned, dispatch to redux and redirect
     if (formState.activeUser) {
       dispatch(login({ user: formState.activeUser }));
-      onClose(); // Close the modal
+      onClose(); // Close the modal first
       setTimeout(() => {
-        //time for closing modal.
+        // Slight delay to allow modal animation before routing
         router.push(`/${formState.activeUser!.id}`);
       }, 200);
     }
@@ -50,13 +58,13 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
 
   return (
     <form
-      action={formAction}
+      action={formAction} // This connects to the useActionState logic
       className="bg-white p-6 rounded-sm shadow-xl w-full max-w-sm mx-auto"
     >
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 flex items-center justify-between">
         Login Form
         <button
-          onClick={onClose}
+          onClick={onClose} // Manually close the modal
           type="button"
           className="bg-red-500 cursor-pointer flex items-center ml-3 text-white font-bold p-2 text-sm rounded-sm"
         >
@@ -65,6 +73,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         </button>
       </h2>
 
+      {/* Input for First Name */}
       <Input
         labelClassName=""
         defaultValue={formState.enteredValues?.firstName}
@@ -75,6 +84,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         type="text"
       />
 
+      {/* Input for Last Name */}
       <Input
         labelClassName=""
         defaultValue={formState.enteredValues?.lastName}
@@ -85,6 +95,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         type="text"
       />
 
+      {/* Input for Email */}
       <Input
         labelClassName=""
         defaultValue={formState.enteredValues?.email}
@@ -95,6 +106,7 @@ export default function LoginForm({ onClose }: { onClose: () => void }) {
         type="email"
       />
 
+      {/* Print any validation errors returned by the action */}
       {formState.errors && <PrintFormErrors errors={formState.errors} />}
 
       <div className="flex justify-center w-full">

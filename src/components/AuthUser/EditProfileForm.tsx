@@ -21,7 +21,7 @@ interface EditProfileFormProps {
   onCancel: () => void;
 }
 
-
+//With this component, user can edit his informations
 export default function EditProfileForm({
   user,
   onCancel,
@@ -47,6 +47,7 @@ export default function EditProfileForm({
     const active = formState.activeUser;
 
     const runUpdate = async () => {
+      // save edits on server
       await updateUser({
         id: active.id,
         first_name: active.first_name,

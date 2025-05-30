@@ -7,7 +7,6 @@ import { MdCancel } from "react-icons/md";
 import { FaIcons } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Modal from "../UI/Modal";
-import LoginForm from "../Login/LoginForm";
 import Signup from "../Signup/Signup";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -17,6 +16,7 @@ import { FaPowerOff } from "react-icons/fa6";
 import { BsFillPersonVcardFill } from "react-icons/bs";
 import { PiUsersFill } from "react-icons/pi";
 import { logout } from "@/store/authSlice";
+import LoginForm from "../Login/LoginForm";
 
 export default function MobileNavbar() {
   const pathname = usePathname();
